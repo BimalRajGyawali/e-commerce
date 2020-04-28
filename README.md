@@ -1,7 +1,7 @@
 # E-commerce
-A group project in HTML, CSS, JS and Django
+A group project in HTML, CSS, JS and Django.
 
-Contributors
+# Contributors
 
 - Bimal Raj Gyawali
 - Sampanna Pokharel
@@ -9,7 +9,7 @@ Contributors
 - Ashant Chaudhary
 - Seetal Raya
 
-' New Contributors kindly edit this list in pull request'
+```New Contributors kindly edit this list in pull request```
 
 # Setting up the project in your local machine
 
