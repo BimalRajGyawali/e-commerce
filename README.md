@@ -1,5 +1,5 @@
 # E-commerce
-A group project in HTML, CSS, JS and Django. edited
+A group project in HTML, CSS, JS and Django.
 
 # Contributors
 
