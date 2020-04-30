@@ -6,4 +6,10 @@ from .models import Category, Product, Item
 
 admin.site.register(Category)
 admin.site.register(Product)
-admin.site.register(Item)
+
+
+@admin.register(Item)
+class ItemAdmin(admin.ModelAdmin):
+    list_display = ('name', 'price')
+
+
