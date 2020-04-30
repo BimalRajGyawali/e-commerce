@@ -27,11 +27,28 @@ class Item(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     desc = models.TextField()
     img = models.ImageField(upload_to='uploads/items', blank=True)
-    stock = models.IntegerField()
-
 
     def __str__(self):
         return self.name
+
+
+class User(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.name
+
+
+class Order(models.Model):
+    items = models.ManyToManyField(Item)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.name
+
+
+
 
 
 
