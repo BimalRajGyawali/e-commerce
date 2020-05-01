@@ -624,7 +624,7 @@
         </button>
       </div>
       <div class="modal-body">
-          <div>Quantity:  <input type="Number" id="SGquantity" value=1 onchange="calculateTotal()"></input></div>
+          <div>Quantity:  <input type="Number" id="SGquantity" value=1 onchange="calculateTotal()" onkeyup="calculateTotal()"></input></div>
         <br>
         <div>Total Price: Rs. <span id="SGtotal">80,000</span></div>
       </div>
@@ -638,14 +638,12 @@
 <!-- end modal add to cart   -->
     <script>
      function calculateTotal(){
-         const quantityDom=document.getElementById('SGquantity');
-         const priceDom=document.getElementById('SGtotal');
-         n=quantityDom.value;
-         console.log(n)
-         totalprice=parseInt(n)*80000;
-         totalpricecomma=totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-         priceDom.innerHTML=totalpricecomma;
-     }
+         const unitPrice = 10;
+         const quantity = document.getElementById('SGquantity').value;
+         document.getElementById('SGtotal').innerHTML = (quantity *  unitPrice)
+                                                        .toString()
+                                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
     </script>
 </body>
 </html>
