@@ -277,10 +277,11 @@
             </div>
             <!-- /.col -->
             <div class="col-md-9">
+                {% for product in products %}
                 <div>
                     <ol class="breadcrumb">
                         <li><a href="#">Home</a></li>
-                        <li class="active">Electronics</li>
+                        <li class="active">{{product.name}}</li>
                     </ol>
                 </div>
                 <!-- /.div -->
@@ -306,135 +307,32 @@
                 </div>
                 <!-- /.row -->
                 <div class="row">
+                    {% for item in product.item_set.all %}
                     <div class="col-md-4 text-center col-sm-6 col-xs-6">
                         <div class="thumbnail product-box">
                             <img src="{% static 'products_app/img/dummyimg.png' %}" alt="" />
                             <div class="caption">
-                                <h3><a href="#">Samsung Galaxy </a></h3>
-                                <p>Price : <strong>$ 3,45,900</strong>  </p>
-                                <p><a href="#">Ptional dismiss button </a></p>
-                                <p>Ptional dismiss button in tional dismiss button in   </p>
-                                <p><button type="button" class="btn btn-success" data-toggle="modal" data-target="#staticBackdrop">
-                                Add To Cart</button> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                See Details</button></p>
-
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-md-4 text-center col-sm-6 col-xs-6">
-                        <div class="thumbnail product-box">
-                            <img src="{% static 'products_app/img/dummyimg.png' %}" alt="" />
-                            <div class="caption">
-                                <h3><a href="#">Samsung Galaxy </a></h3>
-                                <p>Price : <strong>$ 3,45,900</strong>  </p>
-                                <p><a href="#">Ptional dismiss button </a></p>
-                                <p>Ptional dismiss button in tional dismiss button in   </p>
-                                <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-md-4 text-center col-sm-6 col-xs-6">
-                        <div class="thumbnail product-box">
-                            <img src="{% static 'products_app/img/dummyimg.png' %}" alt="" />
-                            <div class="caption">
-                                <h3><a href="#">Samsung Galaxy </a></h3>
-                                <p>Price : <strong>$ 3,45,900</strong>  </p>
-                                <p><a href="#">Ptional dismiss button </a></p>
-                                <p>Ptional dismiss button in tional dismiss button in   </p>
-                                <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.col -->
-                </div>
-                <!-- /.row -->
-                <div class="row">
-                    <ul class="pagination alg-right-pad">
-                        <li><a href="#">&laquo;</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">&raquo;</a></li>
-                    </ul>
-                </div>
-                <!-- /.row -->
-                <div>
-                    <ol class="breadcrumb">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Clothing</a></li>
-                        <li class="active">Men's Clothing</li>
-                    </ol>
-                </div>
-                <!-- /.div -->
-                <div class="row">
-                    <div class="btn-group alg-right-pad">
-                        <button type="button" class="btn btn-default"><strong>3005  </strong>items</button>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                Sort Products &nbsp;
-      <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">By Price Low</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">By Price High</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">By Popularity</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">By Reviews</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.row -->
-                <div class="row">
-                    <div class="col-md-4 text-center col-sm-6 col-xs-6">
-                        <div class="thumbnail product-box">
-                            <img src="{% static 'products_app/img/dummyimg.png' %}" alt="" />
-                            <div class="caption">
-                                <h3><a href="#">Samsung Galaxy </a></h3>
-                                <p>Price : <strong>$ 3,45,900</strong>  </p>
-                                <p><a href="#">Ptional dismiss button </a></p>
-                                <p>Ptional dismiss button in tional dismiss button in   </p>
+                                <h3><a href="#">{{ item.name }} </a></h3>
+                                <p>Price : <strong>${{ item.price }}</strong>  </p>
+                                <p>{{ item.desc }}  </p>
                                 <p>
-                                    <a href="#" class="btn btn-success" role="button">Add To Cart</a>
-                                    <a href="#" class="btn btn-primary" role="button">See Details</a>
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#staticBackdrop">
+                                                                              Add To Cart</button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                See Details</button>
                                 </p>
+
+
                             </div>
                         </div>
                     </div>
                     <!-- /.col -->
-                    <div class="col-md-4 text-center col-sm-6 col-xs-6">
-                        <div class="thumbnail product-box">
-                            <img src="{% static 'products_app/img/dummyimg.png' %}" alt="" />
-                            <div class="caption">
-                                <h3><a href="#">Samsung Galaxy </a></h3>
-                                <p>Price : <strong>$ 3,45,900</strong>  </p>
-                                <p><a href="#">Ptional dismiss button </a></p>
-                                <p>Ptional dismiss button in tional dismiss button in   </p>
-                                <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-md-4 text-center col-sm-6 col-xs-6">
-                        <div class="thumbnail product-box">
-                            <img src="{% static 'products_app/img/dummyimg.png' %}" alt="" />
-                            <div class="caption">
-                                <h3><a href="#">Samsung Galaxy </a></h3>
-                                <p>Price : <strong>$ 3,45,900</strong>  </p>
-                                <p><a href="#">Ptional dismiss button </a></p>
-                                <p>Ptional dismiss button in tional dismiss button in   </p>
-                                <p><a href="#" class="btn btn-success" role="button">Add To Cart</a> <a href="#" class="btn btn-primary" role="button">See Details</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.col -->
+
+
+
+
+
+                    {% endfor %}
                 </div>
                 <!-- /.row -->
                 <div class="row">
@@ -449,11 +347,12 @@
                     </ul>
                 </div>
                 <!-- /.row -->
+
+
+
+                {% endfor %}
             </div>
-            <!-- /.col -->
-        </div>
         <!-- /.row -->
-    </div>
     <!-- /.container -->
     <div class="col-md-12 download-app-box text-center">
 
@@ -624,13 +523,13 @@
         </button>
       </div>
       <div class="modal-body">
-          <div>Quantity:  <input type="Number" id="SGquantity" value=1 onchange="calculateTotal()" onkeyup="calculateTotal()"></input></div>
+          <div>Quantity:  <input type="Number" id="SGquantity" min=1 value=1 onchange="calculateTotal()" onkeyup="calculateTotal()"></input></div>
         <br>
         <div>Total Price: Rs. <span id="SGtotal">80,000</span></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save To Cart</button>
+        <a href="{% url 'cart_save' %}"  class="btn btn-primary">Save To Cart</a>
       </div>
     </div>
   </div>
