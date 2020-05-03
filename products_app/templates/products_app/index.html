@@ -523,7 +523,7 @@
         </button>
       </div>
       <div class="modal-body">
-          <div>Quantity:  <input type="Number" id="SGquantity" min=1 value=1 onchange="calculateTotal()" onkeyup="calculateTotal()"  oninput="validity.valid||(value='');" required></div>
+          <div>Quantity:  <input type="Number" id="SGquantity" min=1  value=1 onchange="calculateTotal()" onkeyup="calculateTotal()"   oninput="validity.valid||(value='');" required></div>
         <br>
         <div>Total Price: Rs. <span id="SGtotal">80,000</span></div>
       </div>
@@ -537,17 +537,13 @@
 <!-- end modal add to cart   -->
     <script>
        function calculateTotal(){
-         const quantityDom=document.getElementById('SGquantity');
+         const unitPrice = 80000;
+         const quantity = parseInt(document.getElementById('SGquantity').value);
          const priceDom=document.getElementById('SGtotal');
-         n=quantityDom.value;
-         console.log(n);
-         if(n==''){
-            priceDom.innerHTML="Quantity Not Specified.";
-            return;
-            }
-         totalprice=parseInt(n)*80000;
-         totalpricecomma=totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-         priceDom.innerHTML=totalpricecomma;
+         priceDom.innerHTML= (quantity* unitPrice)
+                                .toString()
+                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
      }
     </script>
 </body>
