@@ -371,15 +371,15 @@
       </div>
 
             <div class="modal-body">
-          <div>Quantity:  <input name="quantity" type="Number" id="SGquantity" min=1  value=1 onchange="calculateTotal()" onkeyup="calculateTotal()"   oninput="validity.valid||(value='');" required></div>
+          <div>Quantity:  <input name="quantity" type="Number" id="SGquantity{{ item.id }}" min=1  value=1 onchange="calculateTotal({{ item.price }}, {{ item.id }})" onkeyup="calculateTotal({{ item.price }}, {{ item.id }})"   oninput="validity.valid||(value='');" required></div>
 
 
                 <br>
-        <div>Total Price: $ <span id="SGtotal"> {{ item.price }} </span></div>
+        <div>Total Price: Rs. <span id="SGtotal{{ item.id }}">{{ item.price }}</span></div>
             </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <a href="{{ item.get_absolute_url }}"  class="btn btn-primary" type="submit">Save To Cart</a>
+        <button onclick="go({% url 'cart_save' %}, {{ item.id }})"  class="btn btn-primary" >Save To Cart</button>
       </div>
 
     </div>
@@ -532,22 +532,25 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js' %}" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <!--    -->
     <script>
-        $(function () {
+       function calculateTotal(unitPrice, id){
 
-            $('#mi-slider').catslider();
+         const quantity = document.getElementById('SGquantity'+id).value;
+         const priceDom= document.getElementById('SGtotal'+id);
+         priceDom.innerHTML= (parseInt(quantity)* unitPrice);
+     }
 
-        });
-		</script>
-    <script>
-       function calculateTotal(){
-         const unitPrice = 80000;
-         const quantity = parseInt(document.getElementById('SGquantity').value);
-         const priceDom=document.getElementById('SGtotal');
-         priceDom.innerHTML= (quantity* unitPrice)
-                                .toString()
-                                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+     function go(url, id){
+     const quantity = parseInt(document.getElementById('SGquantity'+id).value);
+     window.location.href = url+'?id='+id+'&quantity='+quantity;
+
 
      }
+
+
+
+
+
+
     </script>
 </body>
 </html>

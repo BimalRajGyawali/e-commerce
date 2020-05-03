@@ -16,9 +16,12 @@ def checkout(request):
     return render(request, 'products_app/checkout.html')
 
 
-def cart_save(request, id):
+def cart_save(request):
+    id = request.GET.get('id')
     item = Item.objects.filter(id=id).first()
-    quantity = request.POST.get('quantity')
+
+    quantity = request.GET.get('quantity')
+    print(id, quantity)
     order_item = OrderItem(item=item, quantity=quantity)
     order_item.save()
     return redirect('cart')

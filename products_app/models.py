@@ -34,12 +34,6 @@ class Item(models.Model):
 
 
 
-    def get_absolute_url(self):
-        return reverse('cart_save', args=(self.id,))
-
-
-
-
 class User(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
@@ -55,9 +49,6 @@ class Order(models.Model):
 
     def __str__(self):
         return self.user.name
-
-
-
 
 
 
