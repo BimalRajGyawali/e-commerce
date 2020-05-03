@@ -32,6 +32,8 @@ class Item(models.Model):
     desc = models.TextField()
     img = models.ImageField(upload_to='uploads/items', blank=True)
 
+    def __str__(self):
+        return self.name
 
 
 class User(models.Model):
