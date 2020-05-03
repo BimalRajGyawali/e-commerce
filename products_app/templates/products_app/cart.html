@@ -20,51 +20,37 @@
     <label class="product-removal">Remove</label>
     <label class="product-line-price">Total</label>
   </div>
- 
-  <div class="product">
+
+  {% for ordered_item in ordered_items %}
+     <div class="product">
     <div class="product-image">
       <img src="{% static 'products_app/img/dummyimg.png' %}">
     </div>
     <div class="product-details">
-      <div class="product-title">Seto Jutta</div>
-      <p class="product-description"> bhout ramro cha, 2 barsa majjaley tikcha sir</p>
+      <div class="product-title">{{ ordered_item.item.title }}</div>
+      <p class="product-description"> {{ ordered_item.item.desc }} </p>
     </div>
-    <div class="product-price"> 10 </div>
+    <div class="product-price"> {{ ordered_item.item.price }} </div>
     <div class="product-quantity">
-      <input id="quantity1" type="number" value="1" min="1" onfocus="this.oldValue = this.value " onchange="calculateTotal('quantity1',10, 'sub_total', this)" onkeyup="calculateTotal('quantity1',10, 'sub_total', this)" oninput="validity.valid||(value='');" required>
+      <input id="{{ ordered_item.id }}" type="number" value="{{ ordered_item.quantity }}" min="1"  onchange="calculateTotal({{ ordered_item.id }},{{ ordered_item.item.price }})" onkeyup="calculateTotal({{ ordered_item.id }},{{ ordered_item.item.price }})" oninput="validity.valid||(value='');" required>
     </div>
     <div class="product-removal">
       <button class="remove-product">
         Remove
       </button>
     </div>
-    <div class="product-line-price sub_total" id="sub_total" >10</div>
+    <div class="product-line-price sub_total" id="sub_total{{ ordered_item.id}}" > {% widthratio ordered_item.quantity 1 ordered_item.item.price %}  </div>
   </div>
- 
-  <div class="product">
-    <div class="product-image">
-      <img src="{% static 'products_app/img/dummyimg.png' %}">
-    </div>
-    <div class="product-details">
-      <div class="product-title">Yo chai title hai ta saman ko</div>
-      <p class="product-description">guyz yo chai product ko choto description hai </p>
-    </div>
-    <div class="product-price">10</div>
-    <div class="product-quantity">
-      <input type="number" value="1" min="1" id="quantity2" onchange="calculateTotal('quantity2',10, 'sub_total1', this)" onkeyup="calculateTotal('quantity2',10, 'sub_total1', this)" oninput="validity.valid||(value='');" required>
-    </div>
-    <div class="product-removal">
-      <button class="remove-product">
-        Remove
-      </button>
-    </div>
-    <div class="product-line-price sub_total" id="sub_total1" >10</div>
-  </div>
- 
+
+
+
+  {% endfor %}
+
+
   <div class="totals">
     <div class="totals-item totals-item-total">
       <label><b><h3>Grand Total</h3></b></label>
-      <p class="totals-value" id="total">10</p>
+      <p class="totals-value" id="total"></p>
     </div>
   </div>
        
@@ -75,35 +61,34 @@
 
 <script>
 
+window.addEventListener('load',calculateGrandTotal);
 
 
+   function calculateTotal(id, unitPrice){
 
-   function calculateTotal(id, unitPrice, target, self){
-
-         let total = 0;
 
          const quantity = document.getElementById(id).value;
 
-         document.getElementById(target).innerHTML = (quantity *  unitPrice)
-                                                        .toString()
-                                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+         document.getElementById('sub_total'+id).innerHTML = (quantity *  unitPrice);
 
-          let sub_totals = document.getElementsByClassName('sub_total');
+         calculateGrandTotal();
 
-
-          for(let i=0; i< sub_totals.length ; i++ ){
-                console.log(i);
-                total += parseInt(sub_totals[i].innerHTML);
-          }
+        }
 
 
-          document.getElementById('total').innerHTML = total;
+        function calculateGrandTotal(){
+                let total = 0;
+                let sub_totals = document.getElementsByClassName('sub_total');
 
 
+                for(let i=0; i< sub_totals.length ; i++ ){
+                    total += parseInt(sub_totals[i].innerHTML);
+                 }
 
 
+                document.getElementById('total').innerHTML = total;
 
- }
+        }
 
 
 </script>

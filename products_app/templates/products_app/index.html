@@ -316,9 +316,9 @@
                                 <p>Price : <strong>${{ item.price }}</strong>  </p>
                                 <p>{{ item.desc }}  </p>
                                 <p>
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#staticBackdrop">
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add{{ item.id }}">
                                                                               Add To Cart</button>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{ item.id }}">
                                 See Details</button>
                                 </p>
 
@@ -329,6 +329,63 @@
                     <!-- /.col -->
 
 
+
+    <!-- Modal SEE Detail -->
+<div class="modal fade" id="{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"> {{ item.name}} </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <div>
+    </div>
+    <div class="modal-body">
+        {{ item.desc }}
+        <div> <img src="{% static 'products_app/img/dummyimg.png' %}" alt="" />
+            <img src="{% static 'products_app/img/dummyimg.png' %}" alt="" />
+            <img src="{% static 'products_app/img/dummyimg.png' %}" alt="" />
+            <img src="{% static 'products_app/img/dummyimg.png' %}" alt="" />
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--  end modal see detail  -->
+
+<!-- Modal add to cart -->
+<div class="modal fade" id="add{{item.id}}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel"> {{ item.name}} </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+            <div class="modal-body">
+          <div>Quantity:  <input name="quantity" type="Number" id="SGquantity{{ item.id }}" min=1  value=1 onchange="calculateTotal({{ item.price }}, {{ item.id }})" onkeyup="calculateTotal({{ item.price }}, {{ item.id }})"   oninput="validity.valid||(value='');" required></div>
+
+
+                <br>
+        <div>Total Price: Rs. <span id="SGtotal{{ item.id }}">{{ item.price }}</span></div>
+            </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button onclick="go({% url 'cart_save' %}, {{ item.id }})"  class="btn btn-primary" >Save To Cart</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- end modal add to cart   -->
 
 
 
@@ -475,80 +532,25 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js' %}" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <!--    -->
     <script>
-        $(function () {
+       function calculateTotal(unitPrice, id){
 
-            $('#mi-slider').catslider();
-
-        });
-		</script>
-
-<!--All Modal UP-->
-    <!-- Modal SEE Detail -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Samsung Galaxy</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    <div>
-    </div>
-    <div class="modal-body">
-        Galaxy S8 is powered by 1.9GHz octa-core Samsung Exynos 8895 processor. It has 4GB RAM and packs 64GB internal storage, expandable up to 256GB via microSD card. The smartphone comes with what the company calls Infinity Display, featuring dual-edge curved display and 18.5:9 aspect ratio.
-        <div> <img src="{% static 'products_app/img/dummyimg.png' %}" alt="" />
-            <img src="{% static 'products_app/img/dummyimg.png' %}" alt="" />
-            <img src="{% static 'products_app/img/dummyimg.png' %}" alt="" />
-            <img src="{% static 'products_app/img/dummyimg.png' %}" alt="" />
-
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!--  end modal see detail  -->
-
-<!-- Modal add to cart -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Samsung Galaxy</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <div>Quantity:  <input type="Number" id="SGquantity" min=1 value=1 onchange="calculateTotal()" onkeyup="calculateTotal()"  oninput="validity.valid||(value='');" required></div>
-        <br>
-        <div>Total Price: Rs. <span id="SGtotal">80,000</span></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <a href="{% url 'cart_save' %}"  class="btn btn-primary">Save To Cart</a>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- end modal add to cart   -->
-    <script>
-       function calculateTotal(){
-         const quantityDom=document.getElementById('SGquantity');
-         const priceDom=document.getElementById('SGtotal');
-         n=quantityDom.value;
-         console.log(n);
-         if(n==''){
-            priceDom.innerHTML="Quantity Not Specified.";
-            return;
-            }
-         totalprice=parseInt(n)*80000;
-         totalpricecomma=totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-         priceDom.innerHTML=totalpricecomma;
+         const quantity = document.getElementById('SGquantity'+id).value;
+         const priceDom= document.getElementById('SGtotal'+id);
+         priceDom.innerHTML= (parseInt(quantity)* unitPrice);
      }
+
+     function go(url, id){
+     const quantity = parseInt(document.getElementById('SGquantity'+id).value);
+     window.location.href = url+'?id='+id+'&quantity='+quantity;
+
+
+     }
+
+
+
+
+
+
     </script>
 </body>
 </html>
