@@ -20,47 +20,33 @@
     <label class="product-removal">Remove</label>
     <label class="product-line-price">Total</label>
   </div>
- 
-  <div class="product">
+
+  {% for item in ordered_items %}
+     <div class="product">
     <div class="product-image">
       <img src="{% static 'products_app/img/dummyimg.png' %}">
     </div>
     <div class="product-details">
-      <div class="product-title">Seto Jutta</div>
-      <p class="product-description"> bhout ramro cha, 2 barsa majjaley tikcha sir</p>
+      <div class="product-title">{{ item.title }}</div>
+      <p class="product-description"> {{ item.desc }} </p>
     </div>
-    <div class="product-price"> 10 </div>
+    <div class="product-price"> {{ item.price }} </div>
     <div class="product-quantity">
-      <input id="quantity1" type="number" value="1" min="1" onfocus="this.oldValue = this.value " onchange="calculateTotal('quantity1',10, 'sub_total', this)" onkeyup="calculateTotal('quantity1',10, 'sub_total', this)" oninput="validity.valid||(value='');" required>
+      <input id="quantity1" type="number" value="{{ item.quantity }}" min="1" onfocus="this.oldValue = this.value " onchange="calculateTotal('quantity1',10, 'sub_total', this)" onkeyup="calculateTotal('quantity1',10, 'sub_total', this)" oninput="validity.valid||(value='');" required>
     </div>
     <div class="product-removal">
       <button class="remove-product">
         Remove
       </button>
     </div>
-    <div class="product-line-price sub_total" id="sub_total" >10</div>
+    <div class="product-line-price sub_total" id="sub_total" > {% widthratio item.quantity 1 item.price %}  </div>
   </div>
- 
-  <div class="product">
-    <div class="product-image">
-      <img src="{% static 'products_app/img/dummyimg.png' %}">
-    </div>
-    <div class="product-details">
-      <div class="product-title">Yo chai title hai ta saman ko</div>
-      <p class="product-description">guyz yo chai product ko choto description hai </p>
-    </div>
-    <div class="product-price">10</div>
-    <div class="product-quantity">
-      <input type="number" value="1" min="1" id="quantity2" onchange="calculateTotal('quantity2',10, 'sub_total1', this)" onkeyup="calculateTotal('quantity2',10, 'sub_total1', this)" oninput="validity.valid||(value='');" required>
-    </div>
-    <div class="product-removal">
-      <button class="remove-product">
-        Remove
-      </button>
-    </div>
-    <div class="product-line-price sub_total" id="sub_total1" >10</div>
-  </div>
- 
+
+
+
+  {% endfor %}
+
+
   <div class="totals">
     <div class="totals-item totals-item-total">
       <label><b><h3>Grand Total</h3></b></label>
