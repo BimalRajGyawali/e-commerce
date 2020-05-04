@@ -184,12 +184,12 @@
             <div class="col-md-3">
                 {% for category in categories %}
                 <di>
-                    <a href="#" class="list-group-item active">{{category.title}}
+                    <a href="#" class="list-group-item" style="background-color: {{category.color}};font-weight:bold;color: white;">{{category.title}}
                     </a>
                     <ul class="list-group">
                         {% for product in category.product_set.all %}
                         <li class="list-group-item">{{product.name}}
-      <span class="label label-primary pull-right">234</span>
+      <span class="label label-primary pull-right">{{product.item_set.count}}</span>
                         </li>
                         {% endfor %}
                     </ul>
