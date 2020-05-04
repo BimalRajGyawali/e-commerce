@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from .models import Product, OrderItem, Item
+from .models import Product, OrderItem, Item, Category
 
 
 def index(request):
     products = Product.objects.all()[:2]
-    return render(request, 'products_app/index.html', {'products': products})
+    categories=Category.objects.all()
+    return render(request, 'products_app/index.html', {'products': products,'categories':categories})
 
 
 def cart(request):
