@@ -3,11 +3,14 @@
 <html>
 <head>
   <title>Cart</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel = 'stylesheet' href = "{% static 'products_app/css/cart.css' %}">
 
 </head>
 <body>
+<div id="msg">
 
+</div>
 <h1>Shopping Cart</h1>
  
 <div class="shopping-cart">
@@ -35,7 +38,7 @@
       <input id="{{ ordered_item.id }}" type="number" value="{{ ordered_item.quantity }}" min="1"  onchange="calculateTotal({{ ordered_item.id }},{{ ordered_item.item.price }})" onkeyup="calculateTotal({{ ordered_item.id }},{{ ordered_item.item.price }})" oninput="validity.valid||(value='');" required>
     </div>
     <div class="product-removal">
-      <button class="remove-product">
+      <button onclick="location.href = '{% url 'delete'%}?id={{ ordered_item.id }}'" class="remove-product">
         Remove
       </button>
     </div>
@@ -55,7 +58,7 @@
   </div>
        
       <button class="checkout">Checkout</button>
-     <button class="checkout">Save</button>
+     <button onclick="update('{% url 'update' %}')" class="checkout">Save</button>
  
 </div>
 
@@ -91,8 +94,55 @@ window.addEventListener('load',calculateGrandTotal);
         }
 
 
-</script>
 
+        function update(url){
+                let items = []
+                products = document.getElementsByClassName('product');
+                for(let i=0; i<products.length; i++){
+                    quantity = products[i].getElementsByTagName('input')[0];
+                    let item = {
+                      'id': quantity.id,
+                      'quantity': quantity.value
+
+                    }
+                    items.push(item);
+                }
+
+                postUpdate(url, items)
+                .then(data => {
+                       createAlert('success','Updated Successfully');
+                  })
+                  .catch((error) => {
+                     createAlert('warning',error);
+                  });
+             }
+
+             async function postUpdate(url, data){
+                   const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json',},
+                        body: JSON.stringify(data),
+                      });
+
+                      return response.json();
+             }
+
+             function createAlert(type, info){
+
+              let msg = document.getElementById('msg');
+              msg.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                                  ${info}
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                  </button>
+                              </div>`;
+             }
+
+
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
 </body>
