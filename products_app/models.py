@@ -2,11 +2,12 @@ from django.db import models
 from django.shortcuts import reverse
 
 # Create your models here.
-
+COLOR = (('violet', 'Violet'), ('green','Green'),('cyan','Cyan'),
+         ('orange','Orange'),('red','Red'),('purple','Purple'),('indigo','Indigo'),('pink','Pink'))
 
 class Category(models.Model):
     title = models.CharField(max_length=100)
-    color = models.CharField(max_length=20)
+    color = models.CharField(max_length=20,choices=COLOR)
 
     class Meta:
         verbose_name = "Categorie"
