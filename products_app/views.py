@@ -82,5 +82,6 @@ class Login(FormView):
                 self.request.session['user'] = username
             else:
                 messages.error(self.request, 'Username or password no matched')
+                return render(self.request, 'products_app/login.html', {'form': form})
             return super().form_valid(form)
 
