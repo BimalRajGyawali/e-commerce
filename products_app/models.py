@@ -38,8 +38,9 @@ class Item(models.Model):
 
 
 class User(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     email = models.EmailField()
+    password = models.CharField(max_length=100, default="")
 
     def __str__(self):
         return self.name
@@ -56,6 +57,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
 
