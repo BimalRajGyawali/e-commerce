@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+
+from .forms import UserRegistrationForm, UserLoginForm
 from .models import Product, OrderItem, Item, Category
 from .serializers import OrderItemSerializer
 from django.http import JsonResponse
@@ -51,3 +53,23 @@ def update(request):
 
     return JsonResponse('Error', status=401)
 
+
+
+def signup(request):
+    if request.method == 'GET':
+        form = UserRegistrationForm()
+
+
+    elif request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            redirect('index')
+
+
+    return render(request, 'products_app/signup.html', {'form': form})
+
+
+def login(request):
+    form = UserLoginForm()
+    return render(request, 'products_app/login.html', {'form': form})
