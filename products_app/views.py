@@ -1,6 +1,7 @@
+
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, FormView
 
 from .forms import UserRegistrationForm, UserLoginForm
 from .models import Product, OrderItem, Item, Category, User
@@ -67,23 +68,19 @@ class SignUp(CreateView):
     success_url = reverse_lazy('index')
 
 
-def login(request):
-    if request.method == 'GET':
-        form = UserLoginForm()
+class Login(FormView):
+    template_name = 'products_app/login.html'
+    form_class = UserLoginForm
+    success_url = reverse_lazy('index')
 
 
-    elif request.method == 'POST':
-        form = UserLoginForm(request.POST)
-        if form.is_valid():
+    def form_valid(self, form):
             username = form.cleaned_data.get('name')
             password = form.cleaned_data.get('password')
             user = User.objects.filter(name=username, password=password).first()
             if user is not None:
-                request.session['user'] = username
-                return redirect('index')
-
+                self.request.session['user'] = username
             else:
-                messages.error(request, 'Username or password no matched')
+                messages.error(self.request, 'Username or password no matched')
+            return super().form_valid(form)
 
-
-    return render(request, 'products_app/login.html', {'form': form})
