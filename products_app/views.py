@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 
 from .forms import UserRegistrationForm, UserLoginForm
-from .models import Product, OrderItem, Item, Category
+from .models import Product, OrderItem, Item, Category, User
 from .serializers import OrderItemSerializer
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 
 
 def index(request):
@@ -15,7 +16,8 @@ def index(request):
 
 
 def cart(request):
-    ordered_items = OrderItem.objects.all()
+    username = request.session.get('user')
+    ordered_items = OrderItem.objects.filter(user__name=username)
     return render(request, 'products_app/cart.html', {'ordered_items': ordered_items})
 
 
@@ -24,10 +26,12 @@ def checkout(request):
 
 
 def cart_save(request):
+    username = request.session.get('user')
+    user = User.objects.get(name=username)
     id = request.GET.get('id')
     item = Item.objects.filter(id=id).first()
     quantity = request.GET.get('quantity')
-    order_item = OrderItem(item=item, quantity=quantity)
+    order_item = OrderItem(item=item, quantity=quantity, user=user)
     order_item.save()
     return redirect('cart')
 
@@ -71,5 +75,22 @@ def signup(request):
 
 
 def login(request):
-    form = UserLoginForm()
+    if request.method == 'GET':
+        form = UserLoginForm()
+
+
+    elif request.method == 'POST':
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('name')
+            password = form.cleaned_data.get('password')
+            user = User.objects.filter(name=username, password=password).first()
+            if user is not None:
+                request.session['user'] = username
+                return redirect('index')
+
+            else:
+                messages.error(request, 'Username or password no matched')
+
+
     return render(request, 'products_app/login.html', {'form': form})
