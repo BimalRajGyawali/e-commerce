@@ -43,7 +43,7 @@
       <img src="{% static 'products_app/img/dummyimg.png' %}">
     </div>
     <div class="product-details">
-      <div class="product-title">{{ ordered_item.item.title }}</div>
+      <div class="product-title">{{ ordered_item.item.title }} </div>
       <p class="product-description"> {{ ordered_item.item.desc }} </p>
     </div>
     <div class="product-price"> {{ ordered_item.item.price }} </div>
@@ -70,7 +70,7 @@
     </div>
   </div>
        
-      <button class="checkout">Checkout</button>
+      <a href="{% url 'checkout' %}" class="btn checkout">Checkout</a>
      <button onclick="update('{% url 'update' %}')" class="checkout">Save</button>
  
 </div>

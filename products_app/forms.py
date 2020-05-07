@@ -1,5 +1,5 @@
 from django import forms
-from .models import User
+from .models import User, Address, CardDetails
 
 
 class UserRegistrationForm(forms.ModelForm):
@@ -13,3 +13,14 @@ class UserRegistrationForm(forms.ModelForm):
 class UserLoginForm(forms.Form):
     name = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        exclude = ['user']
+
+class CreditCardForm(forms.ModelForm):
+    class Meta:
+        model = CardDetails
+        exclude = ['user']
