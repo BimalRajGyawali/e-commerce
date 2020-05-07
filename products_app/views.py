@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
+from .decorators import login_required, logout_required
 
 
 def index(request):
@@ -15,16 +16,19 @@ def index(request):
     return render(request, 'products_app/index.html', {'products': products,'categories':categories})
 
 
+@login_required
 def cart(request):
-    username = request.session.get('user')
-    ordered_items = OrderItem.objects.filter(user__name=username)
-    return render(request, 'products_app/cart.html', {'ordered_items': ordered_items})
+   username = request.session.get('user')
+   ordered_items = OrderItem.objects.filter(user__name=username)
+   return render(request, 'products_app/cart.html', {'ordered_items': ordered_items})
+
 
 
 def checkout(request):
     return render(request, 'products_app/checkout.html')
 
 
+@login_required
 def cart_save(request):
     username = request.session.get('user')
     user = User.objects.get(name=username)
@@ -58,7 +62,7 @@ def update(request):
     return JsonResponse('Error', status=401)
 
 
-
+@logout_required
 def signup(request):
     if request.method == 'GET':
         form = UserRegistrationForm()
@@ -74,6 +78,7 @@ def signup(request):
     return render(request, 'products_app/signup.html', {'form': form})
 
 
+@logout_required
 def login(request):
     if request.method == 'GET':
         form = UserLoginForm()
@@ -94,3 +99,9 @@ def login(request):
 
 
     return render(request, 'products_app/login.html', {'form': form})
+
+
+def logout(request):
+   if 'user' in request.session.keys():
+       del request.session['user']
+   return redirect('index')

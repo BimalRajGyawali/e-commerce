@@ -3,7 +3,7 @@ from django.urls import path
 
 from products_app.views import \
     index, cart, checkout, cart_save, \
-    delete, update, login, signup
+    delete, update, login, signup, logout
 
 urlpatterns = [path('', index, name='index'),
                path('cart/', cart, name='cart'),
@@ -12,7 +12,8 @@ urlpatterns = [path('', index, name='index'),
                path('delete/', delete, name='delete'),
                path('update/', update, name="update"),
                path('login/',login, name='login'),
-               path('signup/', signup, name='signup')
+               path('signup/', signup, name='signup'),
+               path('logout/', logout, name='logout')
 ]
 
 
