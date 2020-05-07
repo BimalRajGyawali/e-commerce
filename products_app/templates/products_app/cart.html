@@ -11,8 +11,17 @@
 <div id="msg">
 
 </div>
-<div class="p-3" style="background:#000;">
-  <a style=" color:white;" class="navbar-brand" href="#"><strong>DIGI</strong> Shop &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;{{ request.session.user }} </a>
+<div class="p-3 " style="background:#000;">
+      <div class="row">
+         <div class="col-md-11">
+             <a style=" color:white;" class="navbar-brand" href="#"><strong>DIGI</strong> Shop &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;{{ request.session.user }} </a>
+
+         </div>
+        <div class="col-md-1">
+             <a  class="navbar-brand" href="{% url 'logout' %}"style=" color:white;">Logout </a>
+        </div>
+      </div>
+
 
 </div>
 <h1 class="mt-5">Shopping Cart</h1>
