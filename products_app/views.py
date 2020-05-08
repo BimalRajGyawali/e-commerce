@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
-from .forms import UserRegistrationForm, UserLoginForm
-from .models import Product, OrderItem, Item, Category, User
+from .forms import UserRegistrationForm, UserLoginForm, CreditCardForm, AddressForm
+from .models import Product, OrderItem, Order, Item, Category, User, Address, CardDetails
 from .serializers import OrderItemSerializer
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
@@ -19,7 +19,7 @@ def index(request):
 @login_required
 def cart(request):
    username = request.session.get('user')
-   ordered_items = OrderItem.objects.filter(user__name=username)
+   ordered_items = OrderItem.objects.filter(user__name=username, ordered=False)
    return render(request, 'products_app/cart.html', {'ordered_items': ordered_items})
 
 
@@ -105,3 +105,50 @@ def logout(request):
    if 'user' in request.session.keys():
        del request.session['user']
    return redirect('index')
+
+
+@login_required
+def checkout(request):
+    username = request.session.get('user')
+    ordered_items = OrderItem.objects.filter(user__name=username, ordered=False)
+
+    user = User.objects.get(name=username)
+    if request.method == 'GET':
+        address_form = AddressForm()
+        card_form = CreditCardForm()
+
+
+    elif request.method == 'POST':
+        address_form = AddressForm(request.POST)
+        card_form = CreditCardForm(request.POST)
+
+        if address_form.is_valid() and card_form.is_valid():
+            street = address_form.cleaned_data['street']
+            city = address_form.cleaned_data['city']
+            state = address_form.cleaned_data['state']
+            zip = address_form.cleaned_data['zip']
+            address = Address(state=state, street=street, city=city,zip=zip,user=user)
+            address.save()
+
+            number = card_form.cleaned_data['number']
+            expiry_date = card_form.cleaned_data['expiry_date']
+            cvv = card_form.cleaned_data['cvv']
+            card = CardDetails(number=number, expiry_date=expiry_date,cvv=cvv, user=user)
+            card.save()
+
+            order = Order.objects.create(user=user)
+
+            for ordered_item in ordered_items:
+                ordered_item.ordered = True
+                ordered_item.save()
+                order.ordered_items.add(ordered_item)
+
+
+
+
+            return redirect('index')
+
+
+
+    return render(request, 'products_app/checkout.html', {'address_form': address_form, 'card_form': card_form,
+                                                          'ordered_items':ordered_items})

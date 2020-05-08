@@ -45,21 +45,34 @@ class User(models.Model):
     def __str__(self):
         return self.name
 
+class OrderItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    ordered = models.BooleanField(default=False)
+
+
+class CardDetails(models.Model):
+    number = models.CharField(max_length=20)
+    expiry_date = models.CharField(max_length=100)
+    cvv = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class Address(models.Model):
+    street = models.CharField(max_length=100)
+    city = models.CharField(max_length=40)
+    state = models.CharField(max_length=20)
+    zip = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Order(models.Model):
-    items = models.ManyToManyField(Item)
+    ordered_items = models.ManyToManyField(OrderItem)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
     def __str__(self):
         return self.user.name
-
-
-
-class OrderItem(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
 
 
 
